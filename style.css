@@ -1,0 +1,22 @@
+body {
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.btn-link {
+  text-decoration: none;
+  color: var(--bs-nav-link-color);
+}
+
+.btn-link:hover {
+  color: var(--bs-nav-link-hover-color);
+}
