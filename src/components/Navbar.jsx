@@ -45,6 +45,15 @@ export default function Navbar() {
                   Dashboard
                 </button>
               </NavLink>
+              <NavLink className="nav-link" to={"rooms"}>
+                <button
+                  type="button"
+                  className="btn btn-link px-0"
+                  data-bs-dismiss="offcanvas"
+                >
+                  Rooms
+                </button>
+              </NavLink>
             </div>
           </div>
         </div>

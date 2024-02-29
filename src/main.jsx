@@ -9,6 +9,7 @@ import {
 import Root from "./routes/Root";
 import NotFound from "./routes/NotFound";
 import Dashboard from "./routes/Dashboard";
+import Rooms from "./routes/Rooms";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
         element: <Navigate replace to="dashboard" />,
       },
       { path: "dashboard", element: <Dashboard /> },
+      { path: "rooms", element: <Rooms /> },
     ],
   },
 ]);
