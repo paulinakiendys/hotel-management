@@ -14,3 +14,16 @@ export async function getRooms() {
     throw error;
   }
 }
+
+export async function deleteRoom(roomId) {
+  try {
+    const { error } = await supabase.from("rooms").delete().eq("id", roomId);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error deleting room:", error.message);
+    throw error;
+  }
+}

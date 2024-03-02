@@ -7,11 +7,12 @@ import {
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
+import { ToastsProvider } from "./contexts/ToastsContext";
 import Root from "./routes/Root";
 import NotFound from "./routes/NotFound";
 import Dashboard from "./routes/Dashboard";
 import Rooms from "./routes/Rooms";
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -33,8 +34,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ToastsProvider>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </ToastsProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
