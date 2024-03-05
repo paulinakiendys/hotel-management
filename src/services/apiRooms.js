@@ -1,4 +1,36 @@
-import { supabase } from "./supabase";
+import { supabase, supabaseUrl } from "./supabase";
+import { v4 as uuidv4 } from "uuid";
+
+export async function addRoom(roomData) {
+  try {
+    const { data: fileData, error: fileError } = await supabase.storage
+      .from("rooms")
+      .upload(`image-${uuidv4()}`, roomData.image);
+
+    if (fileError) {
+      throw fileError;
+    }
+
+    const { data, error } = await supabase
+      .from("rooms")
+      .insert([
+        {
+          ...roomData,
+          image: `${supabaseUrl}/storage/v1/object/public/${fileData.fullPath}`,
+        },
+      ])
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error adding room:", error.message);
+    throw error;
+  }
+}
 
 export async function getRooms() {
   try {

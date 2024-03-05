@@ -4,6 +4,8 @@ import { deleteRoom, getRooms } from "../services/apiRooms";
 import Spinner from "../components/Spinner";
 import Alert from "../components/Alert";
 import RoomsTable from "../components/RoomsTable";
+import Modal from "../components/Modal";
+import AddRoomForm from "../components/AddRoomForm";
 
 export default function Rooms() {
   const queryClient = useQueryClient();
@@ -18,7 +20,7 @@ export default function Rooms() {
     queryFn: getRooms,
   });
 
-  const { isLoading: isDeletingRoom, mutate } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: deleteRoom,
     onSuccess: () => {
       addToast("Successfully deleted room", "success");
@@ -37,13 +39,18 @@ export default function Rooms() {
       {rooms.length === 0 ? (
         <Alert variant="info" message="No rooms available" />
       ) : (
-        <RoomsTable
-          rooms={rooms}
-          isDeletingRoom={isDeletingRoom}
-          mutate={mutate}
-        />
+        <RoomsTable rooms={rooms} isPending={isPending} mutate={mutate} />
       )}
-      <button className="btn btn-success">Add room</button>
+      <button
+        className="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#addRoomModal"
+      >
+        Add room
+      </button>
+      <Modal title={"Add a new room"}>
+        <AddRoomForm />
+      </Modal>
     </>
   );
 }
