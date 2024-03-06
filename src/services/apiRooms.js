@@ -47,6 +47,37 @@ export async function getRooms() {
   }
 }
 
+export async function updateRoom(roomId, updatedRoomData) {
+  try {
+    if (updatedRoomData.image instanceof File) {
+      const { data: fileData, error: fileError } = await supabase.storage
+        .from("rooms")
+        .upload(`image-${uuidv4()}`, updatedRoomData.image);
+
+      if (fileError) {
+        throw fileError;
+      }
+
+      updatedRoomData.image = `${supabaseUrl}/storage/v1/object/public/${fileData.fullPath}`;
+    }
+
+    const { data, error } = await supabase
+      .from("rooms")
+      .update(updatedRoomData)
+      .eq("id", roomId)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error updating room:", error.message);
+    throw error;
+  }
+}
+
 export async function deleteRoom(roomId) {
   try {
     const { error } = await supabase.from("rooms").delete().eq("id", roomId);

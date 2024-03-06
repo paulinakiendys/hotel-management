@@ -48,7 +48,7 @@ export default function Rooms() {
       >
         Add room
       </button>
-      <Modal title={"Add a new room"}>
+      <Modal id="addRoomModal" title={"Add a new room"}>
         <AddRoomForm />
       </Modal>
     </>

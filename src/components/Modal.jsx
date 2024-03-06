@@ -1,18 +1,18 @@
-export default function Modal({ title, children }) {
+export default function Modal({ title, id, children }) {
   return (
     <div
       className="modal fade"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
-      id="addRoomModal"
+      id={id}
       tabIndex="-1"
-      aria-labelledby="addRoomModalLabel"
+      aria-labelledby={`${id}Label`}
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title fs-5" id="addRoomModalLabel">
+            <h1 className="modal-title fs-5" id={`${id}Label`}>
               {title}
             </h1>
             <button
