@@ -12,7 +12,9 @@ export default function useAddRoomMutation() {
       addToast("Successfully added room", "success");
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
       const modal = window.bootstrap.Modal.getInstance("#addRoomModal");
-      modal.hide();
+      if (modal) {
+        modal.hide();
+      }
     },
     onError: (error) => {
       addToast(error.message, "danger");

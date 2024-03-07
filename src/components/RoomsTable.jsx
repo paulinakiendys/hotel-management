@@ -1,10 +1,26 @@
 import { useState } from "react";
 import EditRoomForm from "./EditRoomForm";
 import Modal from "./Modal";
+import useAddRoomMutation from "../hooks/useAddRoomMutation";
 
-export default function RoomsTable({ rooms, isPending, mutate }) {
+export default function RoomsTable({
+  rooms,
+  isPending: isDeletingRoom,
+  mutate: deleteRoom,
+}) {
   const tableHeaders = ["", "Room number", "Capacity", "Rate", "Discount", ""];
   const [room, setRoom] = useState({});
+
+  const { isPending: isDuplicatingRoom, mutate: duplicateRoom } =
+    useAddRoomMutation();
+
+  function handleDuplicate(room) {
+    const duplicatedRoomData = { ...room };
+    delete duplicatedRoomData.id;
+    delete duplicatedRoomData.created_at;
+    duplicateRoom(duplicatedRoomData);
+  }
+
   return (
     <>
       <div className="table-responsive">
@@ -36,7 +52,11 @@ export default function RoomsTable({ rooms, isPending, mutate }) {
                 </td>
                 <td className="text-center align-middle">
                   <div className="btn-group" role="group">
-                    <button className="btn btn-primary" disabled={isPending}>
+                    <button
+                      className="btn btn-primary"
+                      disabled={isDuplicatingRoom}
+                      onClick={() => handleDuplicate(room)}
+                    >
                       Duplicate
                     </button>
                     <button
@@ -44,14 +64,13 @@ export default function RoomsTable({ rooms, isPending, mutate }) {
                       onClick={() => setRoom(room)}
                       data-bs-toggle="modal"
                       data-bs-target="#editRoomModal"
-                      disabled={isPending}
                     >
                       Edit
                     </button>
                     <button
                       className="btn btn-danger"
-                      onClick={() => mutate(room.id)}
-                      disabled={isPending}
+                      onClick={() => deleteRoom(room.id)}
+                      disabled={isDeletingRoom}
                     >
                       Delete
                     </button>

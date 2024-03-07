@@ -3,12 +3,18 @@ import { v4 as uuidv4 } from "uuid";
 
 export async function addRoom(roomData) {
   try {
-    const { data: fileData, error: fileError } = await supabase.storage
-      .from("rooms")
-      .upload(`image-${uuidv4()}`, roomData.image);
+    let imageUrl = roomData.image;
 
-    if (fileError) {
-      throw fileError;
+    if (roomData.image instanceof File) {
+      const { data: fileData, error: fileError } = await supabase.storage
+        .from("rooms")
+        .upload(`image-${uuidv4()}`, roomData.image);
+
+      if (fileError) {
+        throw fileError;
+      }
+
+      imageUrl = `${supabaseUrl}/storage/v1/object/public/${fileData.fullPath}`;
     }
 
     const { data, error } = await supabase
@@ -16,7 +22,7 @@ export async function addRoom(roomData) {
       .insert([
         {
           ...roomData,
-          image: `${supabaseUrl}/storage/v1/object/public/${fileData.fullPath}`,
+          image: imageUrl,
         },
       ])
       .select();
@@ -24,7 +30,6 @@ export async function addRoom(roomData) {
     if (error) {
       throw error;
     }
-
     return data;
   } catch (error) {
     console.error("Error adding room:", error.message);
