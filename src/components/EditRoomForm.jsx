@@ -10,10 +10,6 @@ const EditRoomForm = ({ room }) => {
 
   const { mutate, isPending } = useEditRoomMutation({ id });
 
-  const onCancel = () => {
-    reset();
-  };
-
   const onSubmit = (data) => {
     mutate({
       ...data,
@@ -113,7 +109,7 @@ const EditRoomForm = ({ room }) => {
           type="button"
           className="btn btn-secondary"
           data-bs-dismiss="modal"
-          onClick={() => onCancel()}
+          onClick={() => reset()}
           disabled={isPending}
         >
           Cancel

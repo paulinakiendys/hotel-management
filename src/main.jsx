@@ -12,6 +12,7 @@ import Root from "./routes/Root";
 import NotFound from "./routes/NotFound";
 import Dashboard from "./routes/Dashboard";
 import Rooms from "./routes/Rooms";
+import Settings from "./routes/Settings";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       },
       { path: "dashboard", element: <Dashboard /> },
       { path: "rooms", element: <Rooms /> },
+      { path: "settings", element: <Settings /> },
     ],
   },
 ]);

@@ -18,7 +18,7 @@ export default function Rooms() {
 
   return (
     <>
-      <h2>Rooms</h2>
+      <h1>Rooms</h1>
       {rooms.length === 0 ? (
         <Alert variant="info" message="No rooms available" />
       ) : (

@@ -4,10 +4,6 @@ import useAddRoomMutation from "../hooks/useAddRoomMutation";
 const AddRoomForm = () => {
   const { register, handleSubmit, reset } = useForm();
 
-  const onCancel = () => {
-    reset();
-  };
-
   const { mutate, isPending } = useAddRoomMutation();
 
   const onSubmit = (data) => {
@@ -121,7 +117,7 @@ const AddRoomForm = () => {
           type="button"
           className="btn btn-secondary"
           data-bs-dismiss="modal"
-          onClick={() => onCancel()}
+          onClick={() => reset()}
           disabled={isPending}
         >
           Cancel
