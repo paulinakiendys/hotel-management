@@ -31,7 +31,9 @@ export default function RoomsTable({ rooms, isPending, mutate }) {
                 <td className="text-center align-middle">{room.number}</td>
                 <td className="text-center align-middle">{room.capacity}</td>
                 <td className="text-center align-middle">${room.rate}</td>
-                <td className="text-center align-middle">{room.discount}%</td>
+                <td className="text-center align-middle">
+                  {room.discount !== 0 ? `${room.discount}%` : ""}
+                </td>
                 <td className="text-center align-middle">
                   <div className="btn-group" role="group">
                     <button className="btn btn-primary" disabled={isPending}>

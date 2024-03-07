@@ -1,29 +1,14 @@
 import { useForm } from "react-hook-form";
-import { useToasts } from "../contexts/ToastsContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateRoom } from "../services/apiRooms";
+import useEditRoomMutation from "../hooks/useEditRoomMutation";
 
 const EditRoomForm = ({ room }) => {
   const { id, ...values } = room;
-  const { addToast } = useToasts();
-  const queryClient = useQueryClient();
 
   const { register, handleSubmit, reset } = useForm({
     values,
   });
 
-  const { isPending, mutate } = useMutation({
-    mutationFn: (updatedData) => updateRoom(id, updatedData),
-    onSuccess: () => {
-      addToast("Successfully updated room", "success");
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      const modal = window.bootstrap.Modal.getInstance("#editRoomModal");
-      modal.hide();
-    },
-    onError: (error) => {
-      addToast(error.message, "danger");
-    },
-  });
+  const { mutate, isPending } = useEditRoomMutation({ id });
 
   const onCancel = () => {
     reset();
