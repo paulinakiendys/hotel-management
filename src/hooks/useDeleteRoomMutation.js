@@ -11,6 +11,7 @@ export default function useDeleteRoomMutation() {
     onSuccess: () => {
       addToast("Successfully deleted room", "success");
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      window.bootstrap.Modal.getInstance("#deleteRoomModal").hide();
     },
     onError: (error) => {
       addToast(error.message, "danger");

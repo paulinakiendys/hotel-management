@@ -1,6 +1,7 @@
 import { useState } from "react";
 import EditRoomForm from "./EditRoomForm";
 import Modal from "./Modal";
+import DeleteRoomConfirmation from "./DeleteRoomConfirmation";
 import useAddRoomMutation from "../hooks/useAddRoomMutation";
 
 export default function RoomsTable({
@@ -69,8 +70,10 @@ export default function RoomsTable({
                     </button>
                     <button
                       className="btn btn-danger"
-                      onClick={() => deleteRoom(room.id)}
                       disabled={isDeletingRoom}
+                      onClick={() => setRoom(room)}
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteRoomModal"
                     >
                       Delete
                     </button>
@@ -83,6 +86,9 @@ export default function RoomsTable({
       </div>
       <Modal id="editRoomModal" title={"Edit room"}>
         <EditRoomForm room={room} />
+      </Modal>
+      <Modal id="deleteRoomModal" title={"Delete room"}>
+        <DeleteRoomConfirmation deleteRoom={deleteRoom} room={room} />
       </Modal>
     </>
   );

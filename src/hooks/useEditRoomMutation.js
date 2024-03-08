@@ -10,8 +10,7 @@ export default function useEditRoomMutation({ id }) {
     onSuccess: () => {
       addToast("Successfully updated room", "success");
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      const modal = window.bootstrap.Modal.getInstance("#editRoomModal");
-      modal.hide();
+      window.bootstrap.Modal.getInstance("#editRoomModal").hide();
     },
     onError: (error) => {
       addToast(error.message, "danger");
