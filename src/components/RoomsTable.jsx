@@ -38,13 +38,13 @@ export default function RoomsTable({
           <tbody>
             {rooms.map((room) => (
               <tr key={room.id}>
-                <th scope="row" className="text-center">
+                <td className="text-center align-middle">
                   <img
                     src={room.image}
                     alt={`Room ${room.number}`}
                     style={{ maxWidth: "100px", maxHeight: "100px" }}
                   />
-                </th>
+                </td>
                 <td className="text-center align-middle">{room.number}</td>
                 <td className="text-center align-middle">{room.capacity}</td>
                 <td className="text-center align-middle">${room.rate}</td>
