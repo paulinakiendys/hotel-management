@@ -3,12 +3,32 @@ import EditRoomForm from "./EditRoomForm";
 import Modal from "./Modal";
 import DeleteRoomConfirmation from "./DeleteRoomConfirmation";
 import useAddRoomMutation from "../hooks/useAddRoomMutation";
+import { useSearchParams } from "react-router-dom";
 
 export default function RoomsTable({
   rooms,
   isPending: isDeletingRoom,
   mutate: deleteRoom,
 }) {
+  const [searchParams] = useSearchParams();
+
+  const filter = searchParams.get("filter");
+  const sort = searchParams.get("sort") || "number";
+  const dir = searchParams.get("dir") || "asc";
+
+  let filteredRooms = rooms;
+
+  if (filter === "discount") {
+    filteredRooms = rooms.filter((room) => room.discount > 0);
+  } else if (filter === "no-discount") {
+    filteredRooms = rooms.filter((room) => room.discount === 0);
+  }
+  const modifier = dir === "asc" ? 1 : -1;
+
+  const sortedRooms = filteredRooms.sort(
+    (a, b) => (a[sort] - b[sort]) * modifier
+  );
+
   const tableHeaders = ["", "Room number", "Capacity", "Rate", "Discount", ""];
   const [room, setRoom] = useState({});
 
@@ -36,7 +56,7 @@ export default function RoomsTable({
             </tr>
           </thead>
           <tbody>
-            {rooms.map((room) => (
+            {sortedRooms.map((room) => (
               <tr key={room.id}>
                 <td className="text-center align-middle">
                   <img

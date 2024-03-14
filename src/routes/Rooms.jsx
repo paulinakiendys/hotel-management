@@ -6,6 +6,8 @@ import AddRoomForm from "../components/AddRoomForm";
 
 import useRoomsQuery from "../hooks/useRoomsQuery";
 import useDeleteRoomMutation from "../hooks/useDeleteRoomMutation";
+import Filter from "../components/Filter";
+import Sort from "../components/Sort";
 
 export default function Rooms() {
   const { isLoading, rooms, error } = useRoomsQuery();
@@ -18,7 +20,55 @@ export default function Rooms() {
 
   return (
     <>
-      <h1>Rooms</h1>
+      <div className="d-flex justify-content-between align-items-center">
+        <h1>Rooms</h1>
+        <div className="d-flex gap-3">
+          <Filter
+            options={[
+              {
+                value: "all",
+                label: "All",
+              },
+              {
+                value: "discount",
+                label: "Discount",
+              },
+              {
+                value: "no-discount",
+                label: "No discount",
+              },
+            ]}
+          />
+          <Sort
+            options={[
+              {
+                value: "number-asc",
+                label: "Room number: low to high",
+              },
+              {
+                value: "number-desc",
+                label: "Room number: high to low",
+              },
+              {
+                value: "rate-asc",
+                label: "Rate: low to high",
+              },
+              {
+                value: "rate-desc",
+                label: "Rate: high to low",
+              },
+              {
+                value: "capacity-asc",
+                label: "Capacity: low to high",
+              },
+              {
+                value: "capacity-desc",
+                label: "Capacity: high to low",
+              },
+            ]}
+          />
+        </div>
+      </div>
       {rooms.length === 0 ? (
         <Alert variant="info" message="No rooms available" />
       ) : (
