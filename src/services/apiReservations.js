@@ -1,17 +1,25 @@
 import { supabase } from "./supabase";
 
-export async function getReservations() {
+export async function getReservations({ filterParams, sortParams }) {
   try {
-    const {
-      data: reservations,
-      count,
-      error,
-    } = await supabase
+    let query = supabase
       .from("reservations")
       .select(
         "id, check_in_date, check_out_date, status, total_price, rooms(number), guests(first_name, last_name, email)",
         { count: "exact" }
       );
+
+    if (filterParams && filterParams.value !== "all") {
+      query = query.eq(filterParams.filter, filterParams.value);
+    }
+
+    if (sortParams) {
+      query = query.order(sortParams.sort, {
+        ascending: sortParams.direction === "asc",
+      });
+    }
+
+    const { data: reservations, count, error } = await query;
 
     if (error) {
       throw error;

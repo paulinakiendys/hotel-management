@@ -3,11 +3,11 @@ import Alert from "../components/Alert";
 import RoomsTable from "../components/RoomsTable";
 import Modal from "../components/Modal";
 import AddRoomForm from "../components/AddRoomForm";
+import Filter from "../components/Filter";
+import Sort from "../components/Sort";
 
 import useRoomsQuery from "../hooks/useRoomsQuery";
 import useDeleteRoomMutation from "../hooks/useDeleteRoomMutation";
-import Filter from "../components/Filter";
-import Sort from "../components/Sort";
 
 export default function Rooms() {
   const { isLoading, rooms, error } = useRoomsQuery();
@@ -24,17 +24,18 @@ export default function Rooms() {
         <h1>Rooms</h1>
         <div className="d-flex gap-3">
           <Filter
+            searchParam="discount"
             options={[
               {
                 value: "all",
                 label: "All",
               },
               {
-                value: "discount",
+                value: "true",
                 label: "Discount",
               },
               {
-                value: "no-discount",
+                value: "false",
                 label: "No discount",
               },
             ]}

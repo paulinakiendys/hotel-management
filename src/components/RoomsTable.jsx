@@ -12,15 +12,15 @@ export default function RoomsTable({
 }) {
   const [searchParams] = useSearchParams();
 
-  const filter = searchParams.get("filter");
+  const filter = searchParams.get("discount");
   const sort = searchParams.get("sort") || "number";
   const dir = searchParams.get("dir") || "asc";
 
   let filteredRooms = rooms;
 
-  if (filter === "discount") {
+  if (filter === "true") {
     filteredRooms = rooms.filter((room) => room.discount > 0);
-  } else if (filter === "no-discount") {
+  } else if (filter === "false") {
     filteredRooms = rooms.filter((room) => room.discount === 0);
   }
   const modifier = dir === "asc" ? 1 : -1;

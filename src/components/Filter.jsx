@@ -1,10 +1,10 @@
 import { useSearchParams } from "react-router-dom";
 
-export default function Filter({ options, value }) {
+export default function Filter({ searchParam, options, value }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function handleChange(e) {
-    searchParams.set("filter", e.target.value);
+    searchParams.set(searchParam, e.target.value);
     setSearchParams(searchParams);
   }
   return (
