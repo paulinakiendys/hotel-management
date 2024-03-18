@@ -67,7 +67,23 @@ export default function RoomsTable({
                 </td>
                 <td className="text-center align-middle">{room.number}</td>
                 <td className="text-center align-middle">{room.capacity}</td>
-                <td className="text-center align-middle">${room.rate}</td>
+                <td className="text-center align-middle">
+                  {room.discount ? (
+                    <>
+                      <span className="text-danger">
+                        <strong>
+                          ${room.rate - (room.rate * room.discount) / 100}
+                        </strong>
+                      </span>{" "}
+                      <span>
+                        <s>${room.rate}</s>
+                      </span>
+                    </>
+                  ) : (
+                    <span>${room.rate}</span>
+                  )}
+                </td>
+
                 <td className="text-center align-middle">
                   {room.discount !== 0 ? `${room.discount}%` : ""}
                 </td>

@@ -7,7 +7,7 @@ export default function BackButton() {
       onClick={() => {
         navigate(-1);
       }}
-      className="btn btn-secondary"
+      className="btn btn-outline-primary"
       type="button"
     >
       Back

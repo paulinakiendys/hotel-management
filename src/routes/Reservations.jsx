@@ -33,12 +33,12 @@ export default function Reservations() {
                 label: "Pending",
               },
               {
-                value: "checked-in",
-                label: "Checked-in",
+                value: "checked in",
+                label: "Checked in",
               },
               {
-                value: "checked-out",
-                label: "Checked-out",
+                value: "checked out",
+                label: "Checked out",
               },
             ]}
           />

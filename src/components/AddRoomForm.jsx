@@ -1,10 +1,16 @@
+import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Spinner from "./Spinner";
+import Alert from "./Alert";
 import useAddRoomMutation from "../hooks/useAddRoomMutation";
+import useSettingsQuery from "../hooks/useSettingsQuery";
 
 const AddRoomForm = () => {
   const { register, handleSubmit, reset } = useForm();
 
   const { mutate, isPending } = useAddRoomMutation();
+
+  const { isLoading, settings, error } = useSettingsQuery();
 
   const onSubmit = (data) => {
     mutate(
@@ -16,6 +22,10 @@ const AddRoomForm = () => {
       }
     );
   };
+
+  if (isLoading) return <Spinner />;
+
+  if (error) return <Alert variant="danger" message={error.message} />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -44,8 +54,26 @@ const AddRoomForm = () => {
           {...register("capacity")}
           required
           min={1}
+          max={settings.max_guests_per_booking}
           disabled={isPending}
+          aria-describedby="capacityHelp"
         />
+        <div id="capacityHelp" className="form-text">
+          Maximum guests per booking is currently set to{" "}
+          {settings.max_guests_per_booking}. Update in{" "}
+          <NavLink
+            to={"/settings"}
+            onClick={() => {
+              const modal = window.bootstrap.Modal.getInstance("#addRoomModal");
+              if (modal) {
+                modal.hide();
+              }
+            }}
+          >
+            Settings
+          </NavLink>
+          .
+        </div>
       </div>
       <div className="mb-3">
         <label htmlFor="rate" className="form-label">

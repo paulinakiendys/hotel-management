@@ -5,7 +5,7 @@ export async function getReservations({ filterParams, sortParams }) {
     let query = supabase
       .from("reservations")
       .select(
-        "id, check_in_date, check_out_date, status, total_price, rooms(number), guests(first_name, last_name, email)",
+        "id, check_in_date, check_out_date, status, total_price, is_paid, breakfast_price, number_of_guests, breakfast_included, room_rate, rooms(number), guests(first_name, last_name, email)",
         { count: "exact" }
       );
 
@@ -53,6 +53,28 @@ export async function getReservation(reservationId) {
       `Error fetching reservation with ID ${reservationId}:`,
       error.message
     );
+    throw error;
+  }
+}
+
+export async function updateReservation({
+  reservationId,
+  updatedReservationData,
+}) {
+  try {
+    const { data, error } = await supabase
+      .from("reservations")
+      .update(updatedReservationData)
+      .eq("id", reservationId)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error updating reservation:", error.message);
     throw error;
   }
 }

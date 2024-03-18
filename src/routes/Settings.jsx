@@ -30,7 +30,7 @@ export default function Settings() {
             {...register("min_nights_per_booking")}
             disabled={isPending}
             required
-            min={0}
+            min={1}
           />
         </div>
         <div className="mb-3">
