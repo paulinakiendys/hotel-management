@@ -11,6 +11,7 @@ export default function useUpdateReservationMutation() {
       addToast("Successfully updated reservation", "success");
       queryClient.invalidateQueries({ queryKey: ["reservations"] });
       queryClient.invalidateQueries({ queryKey: ["reservation"] });
+      queryClient.invalidateQueries({ queryKey: ["today's reservations"] });
       const modal = window.bootstrap.Modal.getInstance(
         "#checkInReservationModal"
       );

@@ -31,6 +31,89 @@ export async function getReservations({ filterParams, sortParams }) {
   }
 }
 
+export async function getReservationsAfterDate(date) {
+  try {
+    const currentDate = new Date();
+    const endOfDay = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+    let query = supabase
+      .from("reservations")
+      .select("created_at, total_price, breakfast_price", { count: "exact" })
+      .gt("created_at", date)
+      .lt("created_at", endOfDay.toISOString());
+
+    const { data: reservations, error } = await query;
+
+    if (error) {
+      throw error;
+    }
+    return reservations;
+  } catch (error) {
+    console.error("Error fetching reservations between dates:", error.message);
+    throw error;
+  }
+}
+
+export async function getStaysAfterDate(date) {
+  try {
+    const currentDate = new Date();
+    const endOfDay = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+    let query = supabase
+      .from("reservations")
+      .select("*, guests(first_name, last_name)", { count: "exact" })
+      .gt("check_in_date", date)
+      .lt("check_out_date", endOfDay.toISOString());
+
+    const { data: reservations, error } = await query;
+
+    if (error) {
+      throw error;
+    }
+    return reservations;
+  } catch (error) {
+    console.error("Error fetching stays between dates:", error.message);
+    throw error;
+  }
+}
+
+export async function getTodaysReservations() {
+  try {
+    const currentDate = new Date().toISOString().split("T")[0];
+    let query = supabase
+      .from("reservations")
+      .select("*, guests(first_name, last_name)", { count: "exact" })
+      .or(
+        `and(status.eq.pending,check_in_date.lte.${currentDate} 23:59:59,check_in_date.gte.${currentDate} 00:00:00),and(status.eq.checked in,check_out_date.lte.${currentDate} 23:59:59,check_out_date.gte.${currentDate} 00:00:00)`
+      )
+      .order("created_at");
+
+    const { data: reservations, error } = await query;
+
+    if (error) {
+      throw error;
+    }
+    return reservations;
+  } catch (error) {
+    console.error("Error fetching today's reservations:", error.message);
+    throw error;
+  }
+}
+
 export async function getReservation(reservationId) {
   try {
     const { data: reservation, error } = await supabase
